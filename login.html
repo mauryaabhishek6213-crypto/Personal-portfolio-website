@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Authentication | Abhishek Portfolio</title>
+<meta name="description" content="Secure administrative sign-in portal for portfolio management.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='%2300DAFF'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<script>
+  (function() {
+    try {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e) {}
+  })();
+</script>
+<style>
+  :root {
+    --bg-body-color: #7fd8f7;
+    --hero-bg:
+      url("hero-45/butterfly.png") center / cover no-repeat fixed,
+      url("butterfly.png") center / cover no-repeat fixed,
+      radial-gradient(60% 52% at 50% 45%, #ffffff 0%, rgba(255,255,255,.9) 28%, rgba(233,250,255,0) 72%),
+      linear-gradient(180deg, #7fd8f7 0%, #a4e4fa 26%, #cbf1fe 55%, #b3e9fb 80%, #8bddf8 100%);
+    --text-primary: #0F172A;
+    --text-secondary: #1E293B;
+    --text-muted: #475569;
+    --heading-color: #0F172A;
+    --heading-accent: #007791;
+    --card-bg: rgba(255, 255, 255, 0.88);
+    --card-border: rgba(255, 255, 255, 0.95);
+    --card-shadow: 0 16px 45px rgba(4, 60, 74, 0.1);
+    --input-bg: #ffffff;
+    --input-border: rgba(16, 18, 22, 0.16);
+    --input-text: #0F172A;
+    --input-focus-border: #007791;
+    --input-focus-ring: rgba(0, 119, 145, 0.25);
+    --btn-primary-bg: #00DAFF;
+    --btn-primary-color: #043c4a;
+    --btn-primary-hover: #00c7e8;
+    --theme-toggle-bg: rgba(0, 218, 255, 0.12);
+    --theme-toggle-color: #007791;
+    --theme-toggle-border: rgba(0, 218, 255, 0.35);
+  }
+
+  [data-theme="dark"] {
+    --bg-body-color: #0B0D12;
+    --hero-bg:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 75%),
+      radial-gradient(circle 600px at 85% 15%, rgba(147, 51, 234, 0.1) 0%, transparent 70%),
+      radial-gradient(circle 500px at 15% 75%, rgba(14, 165, 233, 0.08) 0%, transparent 70%),
+      linear-gradient(180deg, #07090D 0%, #0B0D12 25%, #0D1017 60%, #07090D 100%);
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --heading-color: #FFFFFF;
+    --heading-accent: #38BDF8;
+    --card-bg: rgba(22, 27, 38, 0.88);
+    --card-border: rgba(255, 255, 255, 0.12);
+    --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    --input-bg: #141A24;
+    --input-border: rgba(255, 255, 255, 0.15);
+    --input-text: #F3F4F6;
+    --input-focus-border: #38BDF8;
+    --input-focus-ring: rgba(56, 189, 248, 0.3);
+    --btn-primary-bg: #00DAFF;
+    --btn-primary-color: #043c4a;
+    --btn-primary-hover: #38BDF8;
+    --theme-toggle-bg: rgba(56, 189, 248, 0.15);
+    --theme-toggle-color: #38BDF8;
+    --theme-toggle-border: rgba(56, 189, 248, 0.4);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: "Inter Tight", Inter, system-ui, -apple-system, sans-serif;
+    color: var(--text-primary);
+    background: var(--hero-bg);
+    background-color: var(--bg-body-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    line-height: 1.5;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  [data-theme="dark"] body {
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 75%),
+      radial-gradient(circle 600px at 85% 15%, rgba(147, 51, 234, 0.1) 0%, transparent 70%),
+      linear-gradient(180deg, #07090D 0%, #0B0D12 25%, #0D1017 60%, #07090D 100%) !important;
+    background-color: #0B0D12 !important;
+  }
+
+  ::selection {
+    background: rgba(0, 218, 255, 0.28);
+    color: #0F172A;
+  }
+  [data-theme="dark"] ::selection {
+    background: rgba(56, 189, 248, 0.35);
+    color: #FFFFFF;
+  }
+
+  .login-topbar {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    right: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .back-link {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    color: var(--heading-accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s ease;
+  }
+  .back-link:hover {
+    transform: translateX(-2px);
+    background: rgba(0, 218, 255, 0.15);
+  }
+
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--theme-toggle-bg);
+    border: 1px solid var(--theme-toggle-border);
+    color: var(--theme-toggle-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .theme-toggle:hover {
+    transform: rotate(15deg) scale(1.05);
+    background: var(--heading-accent);
+    color: #ffffff;
+  }
+  .theme-toggle svg { width: 18px; height: 18px; }
+  .theme-toggle .sun-icon { display: none; }
+  .theme-toggle .moon-icon { display: block; }
+  [data-theme="dark"] .theme-toggle .sun-icon { display: block; }
+  [data-theme="dark"] .theme-toggle .moon-icon { display: none; }
+
+  .login-container {
+    width: 100%;
+    max-width: 460px;
+    margin: 40px auto;
+  }
+
+  .login-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 44px 38px;
+    box-shadow: var(--card-shadow);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: rgba(0, 218, 255, 0.12);
+    color: var(--heading-accent);
+    border: 1px solid rgba(0, 218, 255, 0.35);
+    margin-bottom: 14px;
+  }
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00DAFF;
+    box-shadow: 0 0 6px #00DAFF;
+  }
+
+  .login-title {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-size: 34px;
+    color: var(--heading-color);
+    margin-bottom: 8px;
+  }
+
+  .login-subtitle {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .alert {
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    margin-bottom: 20px;
+    display: none;
+    line-height: 1.5;
+  }
+  .alert.error {
+    display: block;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #ef4444;
+  }
+  .alert.success {
+    display: block;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #10b981;
+  }
+  .alert.info {
+    display: block;
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: var(--heading-accent);
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+    text-align: left;
+  }
+
+  .form-label {
+    display: block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--input-text);
+    font-family: "Inter", sans-serif;
+    font-size: 14.5px;
+    transition: all 0.2s ease;
+  }
+  .form-input:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 3px var(--input-focus-ring);
+  }
+
+  .toggle-password-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: color 0.15s ease;
+  }
+  .toggle-password-btn:hover {
+    color: var(--heading-accent);
+  }
+
+  .form-aux {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: -6px 0 18px;
+    font-size: 12.5px;
+    font-family: "JetBrains Mono", monospace;
+  }
+  .aux-link {
+    color: var(--heading-accent);
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    transition: opacity 0.2s ease;
+  }
+  .aux-link:hover {
+    text-decoration: underline;
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 13px 20px;
+    border-radius: 10px;
+    border: none;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-color);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 218, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+  }
+  .login-btn:hover:not(:disabled) {
+    background: var(--btn-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 218, 255, 0.45);
+  }
+  .login-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .login-btn.secondary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--input-border);
+    box-shadow: none;
+    margin-top: 10px;
+  }
+  .login-btn.secondary:hover:not(:disabled) {
+    background: rgba(0, 218, 255, 0.08);
+    color: var(--heading-accent);
+  }
+
+  .login-notice {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--card-border);
+    font-size: 12.5px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(4, 60, 74, 0.25);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    display: none;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .login-btn.loading .spinner {
+    display: inline-block;
+  }
+
+  /* Recovery Box Hint */
+  .recovery-box {
+    margin: 14px 0 18px;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(0, 218, 255, 0.08);
+    border: 1px solid rgba(0, 218, 255, 0.25);
+    font-size: 12px;
+    color: var(--text-secondary);
+    word-break: break-all;
+  }
+</style>
+</head>
+<body>
+
+<div class="login-topbar">
+  <a href="/#home" class="back-link">&larr; Return to Portfolio</a>
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme" title="Toggle theme">
+    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+</div>
+
+<main class="login-container" role="main">
+  <div class="login-card">
+    <div class="login-header">
+      <span class="badge"><span class="badge-dot"></span>Owner Authorization</span>
+      <h1 class="login-title" id="card-title">Admin Sign In</h1>
+      <p class="login-subtitle" id="card-subtitle">Sign in to manage portfolio and administration tools.</p>
+    </div>
+
+    <div class="alert" id="status-alert" role="alert" aria-live="polite"></div>
+
+    <!-- 1. SIGN IN VIEW -->
+    <div id="signin-view">
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label for="username" class="form-label">Username / Email</label>
+          <div class="input-wrapper">
+            <input type="text" id="username" name="username" class="form-input" autocomplete="username" required placeholder="Enter admin username">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" name="password" class="form-input" autocomplete="current-password" required placeholder="Enter password">
+            <button type="button" class="toggle-password-btn" id="toggle-password" aria-label="Show password">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-aux">
+          <span>Private Gate</span>
+          <button type="button" class="aux-link" id="goto-forgot-btn">Forgot Password?</button>
+        </div>
+
+        <button type="submit" class="login-btn" id="submit-btn">
+          <span class="spinner" id="spinner"></span>
+          <span id="btn-text">Authenticate</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- 2. FORGOT PASSWORD VIEW (Step 1: Request Token) -->
+    <div id="forgot-view" style="display: none;">
+      <form id="forgot-form" novalidate>
+        <div class="form-group">
+          <label for="recovery-username" class="form-label">Admin Username or Email</label>
+          <div class="input-wrapper">
+            <input type="text" id="recovery-username" class="form-input" required placeholder="abhishek_admin or registered email">
+          </div>
+        </div>
+
+        <button type="submit" class="login-btn" id="forgot-submit-btn">
+          <span class="spinner"></span>
+          <span>Generate Reset Token</span>
+        </button>
+
+        <button type="button" class="login-btn secondary" id="return-signin-btn">
+          &larr; Back to Sign In
+        </button>
+      </form>
+    </div>
+
+    <!-- 3. RESET PASSWORD VIEW (Step 2: Enter Token & New Password) -->
+    <div id="reset-view" style="display: none;">
+      <form id="reset-form" novalidate>
+        <div class="form-group">
+          <label for="reset-token" class="form-label">Security Reset Token</label>
+          <div class="input-wrapper">
+            <input type="text" id="reset-token" class="form-input" required placeholder="Paste 64-character token">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="new-password" class="form-label">New Password (Min 8 Characters)</label>
+          <div class="input-wrapper">
+            <input type="password" id="new-password" class="form-input" required placeholder="Enter new password">
+            <button type="button" class="toggle-password-btn" id="toggle-new-password" aria-label="Show password">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirm-password" class="form-label">Confirm New Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="confirm-password" class="form-input" required placeholder="Re-enter new password">
+          </div>
+        </div>
+
+        <button type="submit" class="login-btn" id="reset-submit-btn">
+          <span class="spinner"></span>
+          <span>Set New Password</span>
+        </button>
+
+        <button type="button" class="login-btn secondary" id="return-from-reset-btn">
+          &larr; Cancel and Return to Sign In
+        </button>
+      </form>
+    </div>
+
+    <div class="login-notice">
+      <b>Private Access Notice:</b> Public visitors can browse all projects and sections without signing in. This gate is reserved exclusively for site administration.
+    </div>
+  </div>
+</main>
+
+<script>
+  // Theme switcher
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch(e) {}
+    });
+  }
+
+  // Views management
+  const signinView = document.getElementById('signin-view');
+  const forgotView = document.getElementById('forgot-view');
+  const resetView = document.getElementById('reset-view');
+
+  const cardTitle = document.getElementById('card-title');
+  const cardSubtitle = document.getElementById('card-subtitle');
+  const alertEl = document.getElementById('status-alert');
+
+  let lockoutTimer = null;
+
+  function setAlert(msg, type = 'error') {
+    alertEl.textContent = msg;
+    alertEl.className = 'alert ' + type;
+  }
+
+  function clearAlert() {
+    alertEl.textContent = '';
+    alertEl.className = 'alert';
+    if (lockoutTimer) {
+      clearInterval(lockoutTimer);
+      lockoutTimer = null;
+    }
+  }
+
+  function showView(viewName) {
+    clearAlert();
+    signinView.style.display = (viewName === 'signin') ? 'block' : 'none';
+    forgotView.style.display = (viewName === 'forgot') ? 'block' : 'none';
+    resetView.style.display = (viewName === 'reset') ? 'block' : 'none';
+
+    if (viewName === 'signin') {
+      cardTitle.textContent = 'Admin Sign In';
+      cardSubtitle.textContent = 'Sign in to manage portfolio and administration tools.';
+    } else if (viewName === 'forgot') {
+      cardTitle.textContent = 'Reset Password';
+      cardSubtitle.textContent = 'Request a cryptographically secure one-time recovery token.';
+    } else if (viewName === 'reset') {
+      cardTitle.textContent = 'Set New Password';
+      cardSubtitle.textContent = 'Enter your token and configure your new administrator password.';
+    }
+  }
+
+  document.getElementById('goto-forgot-btn').addEventListener('click', () => showView('forgot'));
+  document.getElementById('return-signin-btn').addEventListener('click', () => showView('signin'));
+  document.getElementById('return-from-reset-btn').addEventListener('click', () => showView('signin'));
+
+  // Password visibility toggles
+  function setupPasswordToggle(btnId, inputId) {
+    const btn = document.getElementById(btnId);
+    const input = document.getElementById(inputId);
+    if (btn && input) {
+      btn.addEventListener('click', () => {
+        const isPass = input.getAttribute('type') === 'password';
+        input.setAttribute('type', isPass ? 'text' : 'password');
+        btn.setAttribute('aria-label', isPass ? 'Hide password' : 'Show password');
+      });
+    }
+  }
+  setupPasswordToggle('toggle-password', 'password');
+  setupPasswordToggle('toggle-new-password', 'new-password');
+
+  // Rate-limit countdown helper
+  function handleRateLimit(remainingSec, submitBtn, defaultLabel) {
+    submitBtn.disabled = true;
+    let count = remainingSec;
+    setAlert(`Too many attempts. Rate limit active. Please wait ${count}s...`, 'error');
+
+    if (lockoutTimer) clearInterval(lockoutTimer);
+    lockoutTimer = setInterval(() => {
+      count -= 1;
+      if (count <= 0) {
+        clearInterval(lockoutTimer);
+        lockoutTimer = null;
+        submitBtn.disabled = false;
+        clearAlert();
+      } else {
+        setAlert(`Too many attempts. Rate limit active. Please wait ${count}s...`, 'error');
+      }
+    }, 1000);
+  }
+
+  // 1. SIGN IN FLOW
+  const loginForm = document.getElementById('login-form');
+  const loginBtn = document.getElementById('submit-btn');
+  const loginBtnText = document.getElementById('btn-text');
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearAlert();
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if (!username) {
+      setAlert('Please enter your administrator username or email.');
+      document.getElementById('username').focus();
+      return;
+    }
+    if (!password) {
+      setAlert('Please enter your password.');
+      document.getElementById('password').focus();
+      return;
+    }
+
+    loginBtn.disabled = true;
+    loginBtn.classList.add('loading');
+    loginBtnText.textContent = 'Authenticating...';
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.status === 429) {
+        const retryAfter = parseInt(res.headers.get('Retry-After') || '60', 10);
+        loginBtn.classList.remove('loading');
+        loginBtnText.textContent = 'Authenticate';
+        handleRateLimit(retryAfter, loginBtn, 'Authenticate');
+        return;
+      }
+
+      if (res.ok && data.success) {
+        loginBtnText.textContent = 'Success! Redirecting...';
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectUrl = urlParams.get('redirect') || '/admin';
+        window.location.href = redirectUrl;
+      } else {
+        setAlert(data.error || 'Invalid username or password.');
+        loginBtn.disabled = false;
+        loginBtn.classList.remove('loading');
+        loginBtnText.textContent = 'Authenticate';
+      }
+    } catch (err) {
+      setAlert('Unable to connect to authentication server. Please verify server is running.');
+      loginBtn.disabled = false;
+      loginBtn.classList.remove('loading');
+      loginBtnText.textContent = 'Authenticate';
+    }
+  });
+
+  // 2. FORGOT PASSWORD REQUEST FLOW
+  const forgotForm = document.getElementById('forgot-form');
+  const forgotBtn = document.getElementById('forgot-submit-btn');
+
+  forgotForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearAlert();
+
+    const username = document.getElementById('recovery-username').value.trim();
+    if (!username) {
+      setAlert('Please enter your username or registered email address.');
+      return;
+    }
+
+    forgotBtn.disabled = true;
+    forgotBtn.classList.add('loading');
+
+    try {
+      const res = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.status === 429) {
+        const retryAfter = parseInt(res.headers.get('Retry-After') || '60', 10);
+        forgotBtn.classList.remove('loading');
+        forgotBtn.disabled = false;
+        handleRateLimit(retryAfter, forgotBtn, 'Generate Reset Token');
+        return;
+      }
+
+      forgotBtn.disabled = false;
+      forgotBtn.classList.remove('loading');
+
+      if (res.ok && data.success) {
+        showView('reset');
+        setAlert('Recovery key generated! Set your new password below.', 'success');
+        if (data.recoveryKey) {
+          document.getElementById('reset-token').value = data.recoveryKey;
+        }
+      } else {
+        setAlert(data.error || 'Unable to process reset request at this time.');
+      }
+    } catch (err) {
+      forgotBtn.disabled = false;
+      forgotBtn.classList.remove('loading');
+      setAlert('Connection error while requesting password reset.');
+    }
+  });
+
+  // 3. SET NEW PASSWORD FLOW
+  const resetForm = document.getElementById('reset-form');
+  const resetBtn = document.getElementById('reset-submit-btn');
+
+  resetForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearAlert();
+
+    const token = document.getElementById('reset-token').value.trim();
+    const newPassword = document.getElementById('new-password').value.trim();
+    const confirmPassword = document.getElementById('confirm-password').value.trim();
+
+    if (!token) {
+      setAlert('Please enter the security reset token.');
+      return;
+    }
+    if (newPassword.length < 8) {
+      setAlert('New password must be at least 8 characters long.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setAlert('Passwords do not match. Please ensure both fields are identical.');
+      return;
+    }
+
+    resetBtn.disabled = true;
+    resetBtn.classList.add('loading');
+
+    try {
+      const res = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, newPassword })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      resetBtn.disabled = false;
+      resetBtn.classList.remove('loading');
+
+      if (res.ok && data.success) {
+        showView('signin');
+        setAlert('Password updated successfully! Please sign in with your new credentials.', 'success');
+        document.getElementById('password').value = '';
+        document.getElementById('username').focus();
+      } else {
+        setAlert(data.error || 'Failed to update password with provided token.');
+      }
+    } catch (err) {
+      resetBtn.disabled = false;
+      resetBtn.classList.remove('loading');
+      setAlert('Connection error while applying new password.');
+    }
+  });
+
+  // Auto-switch to reset view if URL has ?token=...
+  const params = new URLSearchParams(window.location.search);
+  const urlToken = params.get('token') || params.get('reset_token');
+  if (urlToken) {
+    showView('reset');
+    document.getElementById('reset-token').value = urlToken;
+    setAlert('Reset token detected. Enter your new password below.', 'info');
+  }
+</script>
+
+</body>
+</html>

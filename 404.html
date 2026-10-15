@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — Page Not Found | Abhishek Portfolio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='%2300DAFF'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<script>
+  (function() {
+    try {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e) {}
+  })();
+</script>
+<style>
+  :root {
+    --bg-body-gradient: radial-gradient(60% 52% at 50% 45%, #ffffff 0%, rgba(255,255,255,.9) 28%, rgba(233,250,255,0) 72%),
+      linear-gradient(180deg, #7fd8f7 0%, #a4e4fa 26%, #cbf1fe 55%, #b3e9fb 80%, #8bddf8 100%);
+    --text-primary: #101216;
+    --text-muted: #495057;
+    --heading-color: #000000;
+    --heading-accent: #006C85;
+    --card-bg: rgba(255, 255, 255, 0.82);
+    --card-border: rgba(255, 255, 255, 0.95);
+    --card-shadow: 0 16px 40px rgba(4, 60, 74, 0.1);
+  }
+
+  [data-theme="dark"] {
+    --bg-body-gradient: radial-gradient(60% 52% at 50% 45%, #0B0D12 0%, rgba(11, 13, 18, .94) 35%, rgba(7, 9, 13, 0.98) 75%),
+      linear-gradient(180deg, #07090D 0%, #0B0D12 35%, #0E1118 70%, #07090D 100%);
+    --text-primary: #F3F4F6;
+    --text-muted: #94A3B8;
+    --heading-color: #FFFFFF;
+    --heading-accent: #38BDF8;
+    --card-bg: rgba(17, 21, 30, 0.82);
+    --card-border: rgba(255, 255, 255, 0.12);
+    --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: "Inter Tight", system-ui, sans-serif;
+    color: var(--text-primary);
+    background:
+      url("hero-45/butterfly.png") center / cover no-repeat fixed,
+      url("butterfly.png") center / cover no-repeat fixed,
+      var(--bg-body-gradient);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  [data-theme="dark"] body {
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 75%),
+      radial-gradient(circle 600px at 85% 15%, rgba(147, 51, 234, 0.1) 0%, transparent 70%),
+      linear-gradient(180deg, #07090D 0%, #0B0D12 25%, #0D1017 60%, #07090D 100%) !important;
+    background-color: #0B0D12 !important;
+  }
+
+  ::selection {
+    background: rgba(0, 218, 255, 0.28);
+    color: #0F172A;
+  }
+  [data-theme="dark"] ::selection {
+    background: rgba(56, 189, 248, 0.35);
+    color: #FFFFFF;
+  }
+
+  .not-found-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(18px);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 56px 40px;
+    max-width: 520px;
+    box-shadow: var(--card-shadow);
+  }
+
+  .error-code {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--heading-accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-size: clamp(36px, 5vw, 54px);
+    color: var(--heading-color);
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+
+  p {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .btn-home {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 32px;
+    border-radius: 999px;
+    background: #00DAFF;
+    color: #043c4a;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(0, 218, 255, 0.35);
+    transition: all 0.2s ease;
+  }
+  .btn-home:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 218, 255, 0.5);
+  }
+</style>
+</head>
+<body>
+
+<main class="not-found-card" role="main">
+  <div class="error-code">HTTP 404 &bull; Resource Missing</div>
+  <h1>Page Not Found</h1>
+  <p>The page or asset you requested does not exist or may have been relocated.</p>
+  <a href="/" class="btn-home">&larr; Return to Homepage</a>
+</main>
+
+</body>
+</html>

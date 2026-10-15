@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stevia — Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=Inter:wght@400;500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: "Inter Tight", Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: #101216;
+    /* Drop butterfly.<png|jpg|webp> in beside this file and it takes over; the
+       gradient below is the stand-in until then. Missing layers just don't paint. */
+    background:
+      url("butterfly.png") center / cover no-repeat fixed,
+      url("butterfly.jpg") center / cover no-repeat fixed,
+      url("butterfly.webp") center / cover no-repeat fixed,
+      radial-gradient(60% 52% at 50% 45%, #ffffff 0%, rgba(255,255,255,.9) 28%, rgba(233,250,255,0) 72%),
+      linear-gradient(180deg, #7fd8f7 0%, #a4e4fa 26%, #cbf1fe 55%, #b3e9fb 80%, #8bddf8 100%);
+  }
+
+  /* drop the arrow-map component in here */
+  .pattern-slot { position: fixed; inset: 0; z-index: 0; }
+  .pattern-slot canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .vignette { position: absolute; inset: 0; pointer-events: none; }
+
+  .nav, .hero { position: relative; z-index: 1; }
+
+  /* ---- nav ---- */
+  .nav {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    padding: 13px 26px;
+  }
+  .brand { display: flex; align-items: center; gap: 9px; color: #101216; font-size: 19px; letter-spacing: .2px; }
+  .brand svg { width: 24px; height: 24px; }
+
+  .links { display: flex; justify-content: center; gap: 38px; }
+  .links a {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12.5px; font-weight: 400; letter-spacing: 1.3px; text-transform: uppercase;
+    color: #101216; text-decoration: none; opacity: .92;
+  }
+  .links a:hover { opacity: 1; }
+
+  .burger { justify-self: end; display: grid; gap: 5px; background: none; border: 0; padding: 0; cursor: pointer; }
+  .burger i { display: block; width: 22px; height: 2px; background: #101216; }
+
+  /* ---- hero ---- */
+  .hero {
+    min-height: calc(100vh - 56px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 0 24px 40px; text-align: center;
+  }
+  /* Content block, sized to its contents — the butterflies' keep-out box. */
+  .hero-inner { display: flex; flex-direction: column; align-items: center; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 9px 20px; margin-bottom: 34px; border-radius: 999px;
+    border: 1px solid rgba(110,116,124,.45); background: rgba(110,116,124,.07);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12.5px; letter-spacing: 1.5px; text-transform: uppercase; color: #6E747C;
+  }
+  .badge b { width: 7px; height: 7px; background: #6E747C; }
+
+  h1 {
+    margin: 0 0 28px;
+    font-family: "Instrument Serif", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(34px, 5.6vw, 78px);
+    line-height: 1.1;
+    letter-spacing: -3px;
+    color: #000;
+    max-width: 900px;
+  }
+  h1 em {
+    font-style: italic; font-weight: 400;
+    color: #000;
+  }
+
+  .cta { display: flex; gap: 17px; }
+  .btn {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12.5px; font-weight: 500; letter-spacing: 1.4px; text-transform: uppercase;
+    height: 42px; padding: 0 26px; display: inline-flex; align-items: center;
+    border: 0; border-radius: 999px; text-decoration: none; cursor: pointer;
+    box-shadow: 0 6px 16px rgba(4,60,74,.18), 0 1px 2px rgba(4,60,74,.12);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(4,60,74,.24), 0 1px 2px rgba(4,60,74,.12); }
+  .btn.light { background: #00DAFF; color: #fff; }
+  .btn.dark  { background: #fff; color: #006C85; }
+
+  @media (max-width: 860px) {
+    .links { display: none; }
+    h1 { max-width: 100%; letter-spacing: -.6px; }
+    .cta { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pattern-slot"><canvas id="bd"></canvas></div>
+
+<header class="nav">
+  <div class="brand">
+    <svg viewBox="0 0 24 24" fill="none">
+      <path d="M7.5 16.5c-2.5 0-4.5-1.9-4.5-4.3 0-2.2 1.7-4 3.9-4.2C7.6 5.4 10 3.5 12.9 3.5c3.5 0 6.4 2.7 6.4 6.1 0 .5-.1 1-.2 1.5" stroke="#101216" stroke-width="1.6" stroke-linecap="round"/>
+      <circle cx="16.5" cy="14.5" r="4" fill="#101216"/>
+    </svg>
+    Stevia
+  </div>
+
+  <nav class="links">
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">How it works</a>
+    <a href="#">Compare</a>
+  </nav>
+
+  <button class="burger" aria-label="Menu"><i></i><i></i><i></i></button>
+</header>
+
+<main class="hero">
+  <div class="hero-inner">
+  <span class="badge"><b></b>New: zero sugar</span>
+
+  <h1>Sweetness That Grows<br>Wild and Lifts <em>Every Sip</em></h1>
+
+  <div class="cta">
+    <a class="btn light" href="#">Taste Stevia</a>
+    <a class="btn dark" href="#">Explore Stevia</a>
+  </div>
+  </div>
+</main>
+
+<script src="butterfly-drift.js"></script>
+</body>
+</html>

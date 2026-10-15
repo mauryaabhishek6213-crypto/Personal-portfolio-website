@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms of Use | Abhishek Portfolio</title>
+<meta name="description" content="Terms of Use for Abhishek's personal portfolio website and software showcase.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='%2300DAFF'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<script>
+  (function() {
+    try {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch(e) {}
+  })();
+</script>
+<style>
+  :root {
+    --bg-body-color: #7fd8f7;
+    --hero-bg:
+      url("hero-45/butterfly.png") center / cover no-repeat fixed,
+      url("butterfly.png") center / cover no-repeat fixed,
+      radial-gradient(60% 52% at 50% 45%, #ffffff 0%, rgba(255,255,255,.9) 28%, rgba(233,250,255,0) 72%),
+      linear-gradient(180deg, #7fd8f7 0%, #a4e4fa 26%, #cbf1fe 55%, #b3e9fb 80%, #8bddf8 100%);
+    --text-primary: #0F172A;
+    --text-secondary: #1E293B;
+    --text-muted: #475569;
+    --heading-color: #0F172A;
+    --heading-accent: #007791;
+    --card-bg: rgba(255, 255, 255, 0.88);
+    --card-border: rgba(255, 255, 255, 0.95);
+    --card-shadow: 0 16px 40px rgba(4, 60, 74, 0.08);
+    --theme-toggle-bg: rgba(0, 218, 255, 0.12);
+    --theme-toggle-color: #007791;
+    --theme-toggle-border: rgba(0, 218, 255, 0.35);
+    --nav-bg: rgba(255, 255, 255, 0.82);
+    --nav-border: rgba(16, 18, 22, 0.08);
+    --footer-bg: rgba(255, 255, 255, 0.88);
+    --footer-border: rgba(16, 18, 22, 0.08);
+    --footer-text: #475569;
+    --section-tag-bg: rgba(0, 218, 255, 0.14);
+    --section-tag-color: #007791;
+    --section-tag-border: rgba(0, 218, 255, 0.4);
+  }
+
+  [data-theme="dark"] {
+    --bg-body-color: #0B0D12;
+    --hero-bg:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 75%),
+      radial-gradient(circle 600px at 85% 15%, rgba(147, 51, 234, 0.1) 0%, transparent 70%),
+      radial-gradient(circle 500px at 15% 75%, rgba(14, 165, 233, 0.08) 0%, transparent 70%),
+      linear-gradient(180deg, #07090D 0%, #0B0D12 25%, #0D1017 60%, #07090D 100%);
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --heading-color: #FFFFFF;
+    --heading-accent: #38BDF8;
+    --card-bg: rgba(22, 27, 38, 0.88);
+    --card-border: rgba(255, 255, 255, 0.12);
+    --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    --theme-toggle-bg: rgba(56, 189, 248, 0.15);
+    --theme-toggle-color: #38BDF8;
+    --theme-toggle-border: rgba(56, 189, 248, 0.4);
+    --nav-bg: rgba(11, 13, 18, 0.88);
+    --nav-border: rgba(255, 255, 255, 0.1);
+    --footer-bg: rgba(11, 13, 18, 0.95);
+    --footer-border: rgba(255, 255, 255, 0.08);
+    --footer-text: #94A3B8;
+    --section-tag-bg: rgba(56, 189, 248, 0.15);
+    --section-tag-color: #38BDF8;
+    --section-tag-border: rgba(56, 189, 248, 0.35);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  ::selection {
+    background: rgba(0, 218, 255, 0.28);
+    color: #0F172A;
+  }
+  [data-theme="dark"] ::selection {
+    background: rgba(56, 189, 248, 0.35);
+    color: #FFFFFF;
+  }
+
+  body {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    color: var(--text-primary);
+    background: var(--hero-bg);
+    background-color: var(--bg-body-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.7;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  /* Header Navbar */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--nav-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 32px;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--heading-color);
+    font-size: 19px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: .2px;
+  }
+  .brand-badge {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00DAFF;
+    box-shadow: 0 0 8px #00DAFF;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .nav-link {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+  .nav-link:hover {
+    color: var(--heading-accent);
+    background: rgba(0, 218, 255, 0.08);
+  }
+
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--theme-toggle-bg);
+    border: 1px solid var(--theme-toggle-border);
+    color: var(--theme-toggle-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .theme-toggle:hover {
+    transform: rotate(15deg) scale(1.05);
+    background: var(--heading-accent);
+    color: #ffffff;
+  }
+  .theme-toggle svg { width: 18px; height: 18px; }
+  .theme-toggle .sun-icon { display: none; }
+  .theme-toggle .moon-icon { display: block; }
+  [data-theme="dark"] .theme-toggle .sun-icon { display: block; }
+  [data-theme="dark"] .theme-toggle .moon-icon { display: none; }
+
+  /* Main Document Container */
+  .policy-wrapper {
+    flex: 1;
+    max-width: 860px;
+    width: 100%;
+    margin: 40px auto 60px;
+    padding: 0 24px;
+  }
+
+  .policy-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 48px 44px;
+    box-shadow: var(--card-shadow);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    background: var(--section-tag-bg);
+    color: var(--section-tag-color);
+    border: 1px solid var(--section-tag-border);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-size: clamp(34px, 4.5vw, 48px);
+    line-height: 1.15;
+    color: var(--heading-color);
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .meta-info {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .policy-card h2 {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-size: 26px;
+    color: var(--heading-color);
+    margin: 32px 0 12px;
+    letter-spacing: -0.3px;
+  }
+
+  .policy-card p {
+    font-size: 15.5px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    line-height: 1.75;
+  }
+
+  .policy-card ul {
+    margin: 12px 0 20px 24px;
+    color: var(--text-secondary);
+    font-size: 15px;
+  }
+
+  .policy-card li {
+    margin-bottom: 8px;
+  }
+
+  .contact-box {
+    margin-top: 36px;
+    padding: 24px;
+    border-radius: 16px;
+    background: rgba(0, 218, 255, 0.08);
+    border: 1px solid var(--section-tag-border);
+  }
+  .contact-box h3 {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+    color: var(--heading-color);
+  }
+
+  /* Footer */
+  .site-footer {
+    border-top: 1px solid var(--footer-border);
+    background: var(--footer-bg);
+    backdrop-filter: blur(12px);
+    padding: 28px 24px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .footer-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-copy {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--footer-text);
+  }
+  .footer-links {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+  }
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .footer-links a:hover {
+    color: var(--heading-accent);
+  }
+  .footer-divider {
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 680px) {
+    .policy-card { padding: 32px 22px; }
+    .site-nav { padding: 12px 18px; }
+    .footer-inner { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav" role="banner">
+  <a href="/#home" class="brand" aria-label="Abhishek Portfolio Home">
+    <span class="brand-badge" aria-hidden="true"></span>
+    <span>Abhishek</span>
+  </a>
+  <div class="nav-right">
+    <a href="/#home" class="nav-link">&larr; Return to Portfolio</a>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark theme" title="Toggle theme">
+      <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main class="policy-wrapper" role="main">
+  <article class="policy-card">
+    <span class="tag">Terms &bull; Legal Baseline</span>
+    <h1>Terms of Use</h1>
+    <div class="meta-info">
+      Effective Date: October 2026 &bull; Personal Portfolio of Abhishek
+    </div>
+
+    <h2>1. Acceptance of Terms</h2>
+    <p>
+      By accessing or using this website (<strong>abhishek-portfolio</strong>), you agree to comply with and be bound by these Terms of Use. This website is a personal portfolio created to present academic work, software engineering projects, technical skills, and contact pathways for prospective collaborators and employers.
+    </p>
+
+    <h2>2. Intellectual Property &amp; Project Showcase</h2>
+    <p>
+      The visual design, site architecture, and content presented on this site are the intellectual work of Abhishek unless otherwise noted (such as the Originkit Hero 45 canvas pattern).
+    </p>
+    <ul>
+      <li><strong>Showcase Materials:</strong> Project descriptions, case studies, and UI designs are displayed for demonstration and educational review.</li>
+      <li><strong>Open Source Code:</strong> Software repositories linked from project cards (such as GitHub repositories) are governed by their respective individual open-source software licenses (e.g., MIT, Apache 2.0).</li>
+      <li><strong>Third-Party Trademarks:</strong> Mention of third-party frameworks, tools, and platforms (React, Python, Vite, etc.) is solely for descriptive purposes and does not imply affiliation or endorsement.</li>
+    </ul>
+
+    <h2>3. Acceptable Use Policy</h2>
+    <p>
+      You agree to use this website in a respectful and lawful manner. You must not:
+    </p>
+    <ul>
+      <li>Attempt to probe, breach, or bypass authentication controls on protected administration endpoints (e.g., <code>/login</code>, <code>/admin</code>).</li>
+      <li>Conduct denial-of-service (DoS) or automated brute-force attacks against the portfolio server.</li>
+      <li>Use automated scraping systems in a manner that degrades system performance or exhausts server resources.</li>
+    </ul>
+
+    <h2>4. External Links &amp; Third-Party Services</h2>
+    <p>
+      This website contains links to external sites such as GitHub and LinkedIn. These links are provided solely for your convenience. The owner exercises no control over the content, security practices, or availability of third-party sites.
+    </p>
+
+    <h2>5. Disclaimer of Warranties &amp; Limitation of Liability</h2>
+    <p>
+      This website and its demonstrative projects are provided on an "as-is" and "as-available" basis. While efforts are made to keep information current and free of errors, no guarantee is provided regarding uptime, uninterrupted accessibility, or the continuous availability of live project demonstrations.
+    </p>
+
+    <div class="contact-box">
+      <h3>Questions or Inquiries?</h3>
+      <p>
+        If you have questions regarding these Terms of Use or wish to discuss project collaborations, please reach out directly:
+      </p>
+      <p style="margin-bottom: 0;">
+        <strong>Email:</strong> <a href="mailto:abhishek.cs.dev@gmail.com" style="color: var(--heading-accent); text-decoration: none; font-family: monospace;">abhishek.cs.dev@gmail.com</a>
+      </p>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-copy">
+      &copy; 2026 Abhishek &bull; Computer Science &amp; Full-Stack Development
+    </div>
+    <div class="footer-links">
+      <a href="/privacy">Privacy Policy</a>
+      <span class="footer-divider">&bull;</span>
+      <a href="/terms" style="color: var(--heading-accent); font-weight: 500;">Terms of Use</a>
+      <span class="footer-divider">&bull;</span>
+      <a href="/login">Admin Portal</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Theme switcher with persistence
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch(e) {}
+    });
+  }
+</script>
+
+</body>
+</html>
